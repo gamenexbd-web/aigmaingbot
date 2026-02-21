@@ -6,7 +6,12 @@
 <title>Earn Master</title>
 
 <style>
-*{ box-sizing:border-box; margin:0; padding:0; font-family:sans-serif; }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:sans-serif;
+}
 
 body{
   height:100vh;
@@ -58,14 +63,12 @@ button:disabled{
   opacity:0.5;
   cursor:not-allowed;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
   <h3>Ads Watched: <span id="ad-count">0</span></h3>
 
   <div class="progress-circle" id="progress-circle">
@@ -73,16 +76,14 @@ button:disabled{
   </div>
 
   <button id="watch-ad-btn">Watch Ad</button>
-
 </div>
 
 <!-- Monetag SDK -->
-<script src='//libtl.com/sdk.js'
-        data-zone='10582145'
-        data-sdk='show_10582145'></script>
+<script src="https://libtl.com/sdk.js"
+        data-zone="10582145"
+        data-sdk="show_10582145"></script>
 
 <script>
-
 let monetagLoaded = false;
 let countdownInterval;
 
@@ -97,7 +98,9 @@ function checkSDK(){
   if(typeof window.show_10582145 === 'function'){
     monetagLoaded = true;
     document.getElementById('watch-ad-btn').disabled = false;
-  } else setTimeout(checkSDK, 500);
+  } else {
+    setTimeout(checkSDK, 500);
+  }
 }
 
 window.addEventListener('DOMContentLoaded', checkSDK);
@@ -110,14 +113,11 @@ document.getElementById('watch-ad-btn').addEventListener('click', ()=>{
     return;
   }
 
-  // Show Ad
   show_10582145();
 
-  // Disable button immediately
   const btn = document.getElementById('watch-ad-btn');
   btn.disabled = true;
 
-  // Countdown
   const progress = document.getElementById('ads-progress');
   const circle = document.getElementById('progress-circle');
 
@@ -132,31 +132,31 @@ document.getElementById('watch-ad-btn').addEventListener('click', ()=>{
     progress.textContent = timeLeft + "s";
 
     let percent = ((duration - timeLeft)/duration)*100;
-    circle.style.background = `conic-gradient(#00ffcc ${percent}%, rgba(0,255,204,0.1) ${percent}%)`;
+
+    circle.style.background =
+      conic-gradient(#00ffcc ${percent}%, rgba(0,255,204,0.1) ${percent}%);
 
     if(timeLeft <= 0){
       clearInterval(countdownInterval);
+
       progress.textContent = "DONE";
 
-      // Increase Ad Count
       adCount++;
       localStorage.setItem("adCount", adCount);
       document.getElementById("ad-count").textContent = adCount;
 
-      // Reset progress circle and text after short delay
       setTimeout(()=>{
         progress.textContent = "READY";
-        circle.style.background = `conic-gradient(#00ffcc 0%, rgba(0,255,204,0.1) 0%)`;
-        btn.disabled = false;  // Auto-enable button after 20s
+        circle.style.background =
+          conic-gradient(#00ffcc 0%, rgba(0,255,204,0.1) 0%);
+        btn.disabled = false;
       }, 1000);
     }
   }
 
-  updateCountdown(); // initial call
+  updateCountdown();
   countdownInterval = setInterval(updateCountdown, 200);
-
 });
-
 </script>
 
 </body>
